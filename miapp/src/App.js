@@ -1,14 +1,12 @@
-
 import './App.css';
-import InputBoton from './components/InputAgregar/InputAgregar';
+import ToDo from './pages/ToDo/ToDo';
 
 function App() {
+  
   return (
-    <div className="container App">
-      <h1>Tareas por hacer</h1>
+    <div className="App">
 
-      <InputAgregar></InputAgregar>
-
+      <ToDo></ToDo>
 
     </div>
   );

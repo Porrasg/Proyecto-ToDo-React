@@ -1,0 +1,4 @@
+.input-group-buscar{
+    display: flex;
+    flex-direction: column;
+}
