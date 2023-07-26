@@ -5,11 +5,14 @@ import "./ToDo.css"
 import Contador from '../../components/Contador/Contador';
 import InputAgregar from '../../components/InputAgregar/InputAgregar'
 import InputBuscar from '../../components/InputBuscar/InputBuscar'
+import Tareas from '../../components/Tareas/Tareas';
 
 
 
 function ToDo() {
     const [listaTareas , setListaTareas] = useState([]);
+    const [inputValue , setInputValue] = useState("");
+
     // agregar
     function agregarTareas(){
 
@@ -18,13 +21,47 @@ function ToDo() {
         listaNueva.push(
             {
                 id: uuidv4(),
-                texto: "",
+                texto: inputValue,
                 check: false
             }
         )
         setListaTareas(listaNueva);
         console.log(listaNueva);
     }
+
+    function inputChange(evento){
+        setInputValue(evento.target.value);
+    }
+
+    function eliminar(evento){
+        let tarea = evento.target.parentElement;
+        let listaNueva = [...listaTareas]; //copiar lista de tareas
+        for (let index = 0; index < listaNueva.length; index++) {
+            if(listaNueva[index].id === tarea.id){
+                listaTareas.splice(index, 1);
+                break;
+            }
+            
+        }
+        // if (eliminar(evento)){
+        //     // alerta para cuando se elimina una tarea
+        //     Swal.fire({
+        //         position: 'top-end',
+        //         icon: 'success',
+        //         title: 'TAREA ELIMINADA',
+        //         showConfirmButton: false,
+        //         timer: 1500
+        //         })
+        // }
+        tarea.remove();
+        setListaTareas(listaNueva);
+        console.log(listaNueva);
+
+    }
+
+    // function checkTarea(){
+
+    // }
 
     return (
     <div className='container'>
@@ -34,23 +71,40 @@ function ToDo() {
         <br></br>
 
         <div className='inputs'>
-            <InputAgregar onClick={agregarTareas}></InputAgregar>
-            <InputBuscar></InputBuscar>
+            <InputAgregar inputAgregar={inputChange} agregarTarea={agregarTareas}></InputAgregar>
+            <Contador></Contador>
         </div>
 
-        <br></br>
+        <br />
 
-        <Contador></Contador>
+        <div className='contenedorTareas'>
 
-        
-        <div>
+            <div className='inputSearch'>
+                <InputBuscar></InputBuscar>
+            </div>
+
+            <br />
+
+            <div className='Tareas'>
             {
                 listaTareas.map((tarea, index)=>(
-                    <li key={index}>lista</li>
+                    <Tareas texto={tarea.texto} 
+                    key={index} 
+                    eliminartarea={eliminar} 
+                    />
+                    
+                    // marcarTarea={checkTarea}
                 ))
             }
+            </div>
+
+            <div>
+            <p className='textNoTasks'>No hay tareas pendientes</p>
+            </div>
+
         </div>
 
+        <br />
     </div>
     )
 }
