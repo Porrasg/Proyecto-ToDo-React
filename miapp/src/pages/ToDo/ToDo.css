@@ -1,11 +1,39 @@
 /* estilos del contenedor */
 .container{
-    margin-top: 30px;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
-    border: solid 1px rgba(255, 255, 255, 0.5);
+    position: relative;
+    padding: 30px;
+    margin: 50px auto;
+    min-height: 100%;
+    background: linear-gradient(0deg, #000, #272727);
+}
+
+/* borde de colores  */
+.container:before, .container:after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    background: linear-gradient(45deg, #ffffff, #00ffff, #ff0000,#ffffff, #00ffff, #ff0000, 
+    #ffffff, #00ffff,#ff0000, #ffffff);
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: steam 20s linear infinite;
+}
+@keyframes steam {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 400% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+.container:after {
+    filter: blur(50px);
 }
 
 /* estilos de letra */
@@ -86,14 +114,14 @@ h1{
 }  
 }
 
-.inputs{
+.parte-arriba{
     margin-top: 130px;
     display: flex;
     justify-content: space-between;
 }
 
 @media screen and (max-width: 500px) {
-    .inputs{
+    .parte-arriba{
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
