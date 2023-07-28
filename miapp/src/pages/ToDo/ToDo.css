@@ -125,6 +125,7 @@ h1{
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
+        margin-top: 100%;
     }
 
     .Tareas-Completadas{
@@ -142,6 +143,7 @@ h1{
 
 .Tareas{
     padding: 20px;
+    color: white;
 }
 
 .inputSearch{

@@ -12,9 +12,11 @@ function Tareas(props) {
 
     return (
     <div className=' contenedor grupotareas'>
-        <input className='input' type="checkbox" checked={props.check} onChange={check} />
+        <div>
+            <input className='check' type="checkbox" checked={props.check} onChange={check} />
+        </div>
         <p className='parrafo-lista'>{props.texto}</p>
-        <button className='botonEliminar' onClick={eliminar}>Delete</button>
+        <button className='botonEliminar btn btn-danger' onClick={eliminar}>Eliminar</button>
     </div>
     )
 }

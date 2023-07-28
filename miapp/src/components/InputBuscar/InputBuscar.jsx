@@ -1,12 +1,23 @@
 import React from 'react'
 import "./InputBuscar.css"
 
-function InputBuscar() {
+
+function InputBuscar(props) {
+
+    function inputChange2(evento){
+        props.setNuevoInput(evento.target.value);
+    }
+    function search(evento){
+        evento.preventDefault();
+        props.searchTareas(props.nuevoInput);
+    }
+
+
+
     return (
     <div>
         <div className='input-group-buscar'>
-            <input className='inputbuscar' type="text" placeholder='Buscar Tarea' />
-            {/* <button className='btn btn-outline-secondary' type='button'>Buscar</button> */}
+            <input onChange={inputChange2} value={props.nuevoInput} className='inputbuscar' type="text" placeholder='Buscar Tarea' />
         </div>
     </div>
     )

@@ -7,8 +7,9 @@ function InputAgregar(props) {
         <div>
             <div className='input-group-agregar'>
                 <form onSubmit={props.agregarTarea}>
-                    <input onChange={props.inputAgregar} type="text" placeholder='Agregar Tarea' />
-                    <br />
+                    <div className='input-border inp'>
+                    <input className='inputAdd' onChange={props.inputAgregar} value={props.value} type="text" placeholder='Agregar Tarea' />
+                    </div>
                     <br />
                     <button onClick={props.agregarTarea} className='button-add' type='button' >Agregar</button>
                 </form>
