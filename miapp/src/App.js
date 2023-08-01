@@ -1,6 +1,6 @@
 import './App.css';
 import ToDo from './pages/ToDo/ToDo';
-import Login from './pages/Login/Login';
+
 import SignUp from './pages/SignUp/SignUp';
 
 // Importar los recursos de React Router Dom
@@ -11,18 +11,14 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Login></Login>
-    },
-    {
-      path: "/login",
-      element: <Login></Login>
+      element: <SignUp></SignUp>
     },
     {
       path: "/signup",
       element: <SignUp></SignUp>
     },
     {
-      path: "/tareas",
+      path: "/tareas/:nombre",
       element: <ToDo></ToDo>
     }
   ]) 

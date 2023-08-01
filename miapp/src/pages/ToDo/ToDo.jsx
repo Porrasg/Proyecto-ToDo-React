@@ -10,6 +10,8 @@ import InputBuscar from '../../components/InputBuscar/InputBuscar';
 import Tareas from '../../components/Tareas/Tareas';
 
 import Swal from 'sweetalert2'
+import Navbar from '../../components/Navbar/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -18,9 +20,22 @@ function ToDo() {
     const [inputValue, setInputValue] = useState("");
     const texto = "No hay tareas"
 
+    const navigate = useNavigate();
+
 
     function inputChange(evento) {
         setInputValue(evento.target.value);
+    }
+
+    function UpdateTask(listaNueva) {
+        const user = sessionStorage.getItem("sesion");
+        const userData = JSON.parse(user);
+        if (userData) {
+            localStorage.setItem(
+                "listaTareas" + userData.nombre.trim(),
+                JSON.stringify(listaNueva)
+            );
+        }
     }
 
     // funcion para agregar
@@ -65,8 +80,24 @@ function ToDo() {
             setListaTareas(listaNueva);
             // console.log(listaNueva);
             setInputValue("");
+
+            UpdateTask(listaNueva)
+
         }
     }
+
+    useEffect(() => {
+        const user = sessionStorage.getItem("sesion")
+        const userData = JSON.parse(user)
+        if (userData) {
+            const listUser = localStorage.getItem("listaTareas" + userData.nombre.trim());
+            const listUserObj = JSON.parse(listUser) ?? [];
+            setListaTareas(listUserObj);
+        } else {
+            navigate("/signup")
+        }
+
+    }, [])
 
     // funcion para eliminar tareas
     function eliminar(id) {
@@ -88,6 +119,8 @@ function ToDo() {
             timer: 1500
         })
         // console.log(listaNueva);
+
+        UpdateTask(listaNueva);
     }
 
     // funcion de check tareas
@@ -100,6 +133,7 @@ function ToDo() {
             }
         }
         setListaTareas(listaNueva);
+        UpdateTask(listaNueva);
     }
 
     // funcion para las tareas en mayúsculas y espacios en blanco 
@@ -114,68 +148,87 @@ function ToDo() {
 
 
 
-    // local store====================
+    // local store=========================================
     // el useEffect es un hook para detectar cuando algo cambia
     // get local store
-    useEffect(() => {
-        let datos = localStorage.getItem('tareas');
-        if (datos) {
-            setListaTareas(JSON.parse(datos));
-        }
-    }, []);
-    // save local store
-    useEffect(() => {
-        localStorage.setItem('tareas', JSON.stringify(listaTareas));
+    // useEffect(() => {
+    //     //obtener el usuario
+    //     const user = sessionStorage.getItem("sesion");
+    //     if(!user){
+    //         navigate("/signup");
+    //     }
 
-    }, [listaTareas]);
+
+    //     let datos = localStorage.getItem('tareas');
+    //     if (datos) {
+    //         setListaTareas(JSON.parse(datos));
+    //     }
+    // }, []);
+    // // save local store
+    // useEffect(() => {
+    //     localStorage.setItem('tareas', JSON.stringify(listaTareas));
+
+    // }, [listaTareas]);
     // termina local store===============
 
 
-    const [ nuevoInput, setNuevoInput] = useState("");
+    const [nuevoInput, setNuevoInput] = useState("");
 
-    function buscarTareas(letra = "a"){
-        let resultados = [...listaTareas]
-    }
+    // function buscarTareas(letra = "a") {
+    //     let resultados = [...listaTareas]
+    // }
 
     return (
-        <div className='container'>
-
-            <h1 className='textoPrinicpal'>Tareas por hacer</h1>
-
-            <br></br>
-
-            <div className='parte-arriba'>
-                <InputAgregar inputAgregar={inputChange} value={inputValue} agregarTarea={agregarTareas}></InputAgregar>
-                <Contador listaTareas={listaTareas}></Contador>
+        <div>
+            <div className='navbar'>
+                <Navbar></Navbar>
             </div>
 
             <br />
+            <br />
+            <br />
+            <br />
 
-            <div className='contenedorTareas'>
 
-                {/* boton buscar */}
-                <div className='inputSearch'>
-                <InputBuscar searchTareas={listaTareas} nuevoInput={nuevoInput} setNuevoInput={setNuevoInput} ></InputBuscar>
+
+            <div className='container'>
+                <h1 className='textoPrinicpal'>Tareas por hacer</h1>
+
+                <br></br>
+
+                <div className='parte-arriba'>
+                    <InputAgregar inputAgregar={inputChange} value={inputValue} agregarTarea={agregarTareas}></InputAgregar>
+                    <Contador listaTareas={listaTareas}></Contador>
                 </div>
 
                 <br />
 
-                <div className='Tareas'>
-                    {!listaTareas.length > 0 && <p>{texto}</p>}
-                    {
-                        listaTareas.filter((ItemTarea)=>{return ItemTarea.texto.includes(nuevoInput)}).map((tarea, index) => (
-                            <Tareas 
-                                texto={tarea.texto}
-                                key={index}
-                                id={tarea.id}
-                                eliminarTarea={eliminar}
-                                check={tarea.check}
-                                marcarTarea={checkTarea}
-                            />
-                        ))
-                    }
-                </div>
+                <div className='contenedorTareas'>
 
+                    {/* boton buscar */}
+                    <div className='inputSearch'>
+                        <InputBuscar searchTareas={listaTareas} nuevoInput={nuevoInput} setNuevoInput={setNuevoInput} ></InputBuscar>
+                    </div>
+
+                    <br />
+
+                    <div className='Tareas'>
+                        {!listaTareas.length > 0 && <p>{texto}</p>}
+                        {
+                            listaTareas.filter((ItemTarea) => { return ItemTarea.texto.includes(nuevoInput) }).map((tarea, index) => (
+                                <Tareas
+                                    texto={tarea.texto}
+                                    key={index}
+                                    id={tarea.id}
+                                    eliminarTarea={eliminar}
+                                    check={tarea.check}
+                                    marcarTarea={checkTarea}
+                                />
+                            ))
+                        }
+                    </div>
+
+                </div>
             </div>
 
             <br />

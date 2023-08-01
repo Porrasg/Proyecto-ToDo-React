@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './SignUp.css'
-import { useNavigate } from 'react-router-dom'; // no lo ue porque mi log in y sign up estan juntos.
+import { useNavigate } from 'react-router-dom'; // no lo use porque mi log in y sign up estan juntos.
 
 function SignUp() {
 
@@ -68,6 +68,10 @@ function SignUp() {
             const users = userData[indiceUser];
 
             //sesion storage
+            sessionStorage.setItem("sesion", JSON.stringify(users));
+
+            navigate("/tareas/" + users.nombre);
+
         }
     }
     // ========================================== log in ============================================================
